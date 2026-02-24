@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Results - Online Examination</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .results-container {
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        
+        .result-card {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        
+        .result-header {
+            margin-bottom: 2rem;
+        }
+        
+        .result-header i {
+            font-size: 5rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+        
+        .result-header h2 {
+            color: var(--dark-color);
+            font-size: 2rem;
+        }
+        
+        .result-summary {
+            margin-bottom: 2rem;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 15px;
+            color: white;
+        }
+        
+        .result-score {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .result-score .total {
+            font-size: 2rem;
+            opacity: 0.8;
+        }
+        
+        .result-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .detail-item {
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .detail-item span {
+            display: block;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+        
+        .detail-item strong {
+            font-size: 1.5rem;
+            color: var(--dark-color);
+        }
+        
+        .detail-item strong.correct {
+            color: #10b981;
+        }
+        
+        .detail-item strong.wrong {
+            color: #ef4444;
+        }
+        
+        .result-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .result-actions button {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: transform 0.3s;
+        }
+        
+        .result-actions button:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-graduation-cap"></i>
+                <span>EduProctor</span>
+            </div>
+            
+            <div class="user-info">
+                <img src="../assets/images/avatar-placeholder.png" alt="User" onerror="this.src='https://via.placeholder.com/50'">
+                <div>
+                    <h4>John Student</h4>
+                    <p>Student ID: STU001</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="student-dashboard.html"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#"><i class="fas fa-pencil-alt"></i> Available Exams</a>
+                <a href="#"><i class="fas fa-history"></i> Exam History</a>
+                <a href="#" class="active"><i class="fas fa-chart-bar"></i> Results</a>
+                <a href="#"><i class="fas fa-user"></i> Profile</a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+        
+        <main class="main-content">
+            <div class="results-container">
+                <div class="result-card">
+                    <div class="result-header">
+                        <i class="fas fa-check-circle"></i>
+                        <h2>Exam Completed!</h2>
+                    </div>
+                    
+                    <div class="result-summary">
+                        <div class="result-score">
+                            <span class="score">85</span>
+                            <span class="total">/100</span>
+                        </div>
+                        <p>You scored 85% - Great job!</p>
+                    </div>
+                    
+                    <div class="result-details">
+                        <div class="detail-item">
+                            <span>Total Questions</span>
+                            <strong>50</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Correct Answers</span>
+                            <strong class="correct">42</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Wrong Answers</span>
+                            <strong class="wrong">8</strong>
+                        </div>
+                        <div class="detail-item">
+                            <span>Time Taken</span>
+                            <strong>45 mins</strong>
+                        </div>
+                    </div>
+                    
+                    <div class="result-actions">
+                        <button class="btn-primary" onclick="location.href='student-dashboard.html'">
+                            <i class="fas fa-home"></i> Go to Dashboard
+                        </button>
+                        <button class="btn-secondary" onclick="window.print()">
+                            <i class="fas fa-print"></i> Print Result
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <script>
+        document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
+            e.preventDefault();
+            sessionStorage.removeItem('user');
+            window.location.href = '../login.html';
+        });
+    </script>
+</body>
+</html>

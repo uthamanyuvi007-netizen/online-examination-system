@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Teacher Portal</span>
+            </div>
+            
+            <div class="user-info">
+                <img src="../assets/images/avatar-placeholder.png" onerror="this.src='https://via.placeholder.com/50'">
+                <div>
+                    <h4 id="userName">Teacher</h4>
+                    <p><i class="fas fa-chalkboard-teacher"></i> Teacher</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="active" id="dashboardBtn"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#" id="createExamBtn"><i class="fas fa-plus-circle"></i> Create Exam</a>
+                <a href="#" id="manageExamsBtn"><i class="fas fa-pencil-alt"></i> Manage Exams</a>
+                <a href="#" id="monitorBtn"><i class="fas fa-video"></i> Monitor Students</a>
+                <a href="#" id="resultsBtn"><i class="fas fa-chart-bar"></i> Results</a>
+                <a href="#" id="profileBtn"><i class="fas fa-user"></i> Profile</a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Dynamic content loads here -->
+        </main>
+    </div>
+    
+    <script src="../js/main.js"></script>
+    <script src="../js/teacher.js"></script>
+</body>
+</html>

@@ -1,0 +1,1802 @@
+/* css/dashboard.css - COMPLETE FILE */
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+    background: #f5f5f5;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 280px;
+    background: white;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    position: fixed;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 100;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    border-bottom: 1px solid #eee;
+}
+
+.sidebar-header i {
+    font-size: 2rem;
+}
+
+.user-info {
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.user-info img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-info h4 {
+    margin-bottom: 0.25rem;
+    color: var(--dark-color);
+}
+
+.user-info p {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.sidebar-nav {
+    padding: 1rem 0;
+}
+
+.sidebar-nav a {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: #666;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.sidebar-nav a i {
+    width: 20px;
+}
+
+.sidebar-nav a:hover, .sidebar-nav a.active {
+    background: #f0f0ff;
+    color: var(--primary-color);
+    border-left: 3px solid var(--primary-color);
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    margin-left: 280px;
+    padding: 2rem;
+}
+
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2rem;
+    color: var(--dark-color);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.notification-badge {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.notification-badge:hover {
+    transform: scale(1.1);
+}
+
+.notification-badge i {
+    font-size: 1.5rem;
+    color: #666;
+}
+
+.badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: var(--danger-color);
+    color: white;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.stat-card i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+}
+
+.stat-card h3 {
+    font-size: 1.5rem;
+    color: var(--dark-color);
+}
+
+.stat-card p {
+    color: #666;
+}
+
+/* Exams Section */
+.exams-section {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.exams-section h2 {
+    margin-bottom: 1.5rem;
+    color: var(--dark-color);
+}
+
+.exams-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.exam-card {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.exam-card:hover {
+    transform: translateY(-5px);
+}
+
+.exam-header {
+    padding: 1rem;
+    color: white;
+    position: relative;
+}
+
+.exam-badge {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255,255,255,0.2);
+    padding: 0.25rem 0.5rem;
+    border-radius: 5px;
+    font-size: 0.85rem;
+}
+
+.exam-body {
+    padding: 1rem;
+    background: white;
+}
+
+.exam-body p {
+    margin: 0.5rem 0;
+    color: #666;
+}
+
+.exam-body p i {
+    width: 20px;
+    color: var(--primary-color);
+}
+
+.btn-start-exam {
+    width: 100%;
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+}
+
+.btn-start-exam:hover:not(:disabled) {
+    background: var(--secondary-color);
+    transform: scale(1.02);
+}
+
+.btn-start-exam:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #f0f0ff;
+    padding: 1rem;
+    text-align: left;
+    color: var(--dark-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    vertical-align: middle;
+}
+
+tr:hover {
+    background: #f8f9ff;
+}
+
+/* Progress bar */
+progress {
+    width: 100%;
+    height: 10px;
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-bar {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+}
+
+progress::-webkit-progress-value {
+    background-color: var(--primary-color);
+    border-radius: 5px;
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background: #e0e0e0;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    transition: background 0.3s;
+}
+
+.theme-toggle i {
+    font-size: 14px;
+    z-index: 1;
+    color: #666;
+}
+
+.theme-toggle .fa-sun {
+    color: #ffd700;
+}
+
+.theme-toggle .fa-moon {
+    color: #4a4a4a;
+}
+
+.toggle-ball {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* Form elements */
+input, select, textarea {
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* ===================================== */
+/* DASHBOARD CARDS */
+/* ===================================== */
+
+.dashboard-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Exam Items */
+.exam-item {
+    padding: 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.exam-item p {
+    margin: 0 0 5px 0;
+}
+
+.exam-item small {
+    color: #666;
+}
+
+/* Alert Items */
+.alert-item {
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.alert-item p {
+    margin: 0 0 5px 0;
+}
+
+.alert-item small {
+    color: #666;
+}
+
+.alert-warning {
+    background: #fee2e2;
+    border-left: 4px solid #ef4444;
+}
+
+.alert-warning p {
+    color: #ef4444;
+}
+
+/* Violation Items */
+.violation-item {
+    padding: 12px;
+    background: #fee2e2;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid #ef4444;
+}
+
+.violation-item p {
+    margin: 0 0 5px 0;
+    color: #ef4444;
+}
+
+.violation-item small {
+    color: #666;
+}
+
+/* Role Badges */
+.role-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.role-admin {
+    background: #ef4444;
+}
+
+.role-teacher {
+    background: #4f46e5;
+}
+
+.role-student {
+    background: #10b981;
+}
+
+/* Status Badges */
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.status-active {
+    background: #10b981;
+}
+
+.status-upcoming {
+    background: #f59e0b;
+}
+
+.status-completed {
+    background: #6b7280;
+}
+
+.status-pass {
+    background: #10b981;
+}
+
+.status-fail {
+    background: #ef4444;
+}
+
+/* Action Buttons */
+.action-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 2px;
+    transition: all 0.3s;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.edit-btn {
+    background: #4f46e5;
+    color: white;
+}
+
+.delete-btn {
+    background: #ef4444;
+    color: white;
+}
+
+/* Form Inputs */
+.form-input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #e1e1e1;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Question Card */
+.question-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #e1e1e1;
+}
+
+/* Monitor Card */
+.monitor-card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+}
+
+.monitor-card:hover {
+    transform: translateY(-5px);
+}
+
+.camera-placeholder {
+    background: #1a1a1a;
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #444;
+}
+
+.camera-placeholder i {
+    font-size: 50px;
+}
+
+.monitor-info {
+    padding: 15px;
+}
+
+.monitor-info h4 {
+    margin: 0 0 5px 0;
+}
+
+.monitor-info p {
+    color: #666;
+    margin: 0 0 10px 0;
+    font-size: 0.9rem;
+}
+
+/* Violation Badge */
+.violation-badge {
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 0.85rem;
+    display: inline-block;
+}
+
+.violation-badge.warning {
+    background: #fee2e2;
+    color: #ef4444;
+}
+
+.violation-badge.safe {
+    background: #e2f9e2;
+    color: #10b981;
+}
+
+/* Profile Info */
+.profile-info p {
+    padding: 8px 0;
+    border-bottom: 1px solid #eee;
+    margin: 0;
+}
+
+.profile-info p:last-child {
+    border-bottom: none;
+}
+
+/* ===================================== */
+/* SETTINGS PAGE STYLES */
+/* ===================================== */
+
+/* Settings Tabs */
+.settings-tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    background: white;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.settings-tab {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.settings-tab i {
+    font-size: 1.1rem;
+}
+
+.settings-tab:hover {
+    background: #f0f0ff;
+    color: #4f46e5;
+}
+
+.settings-tab.active {
+    background: #4f46e5;
+    color: white;
+}
+
+/* Settings Tab Content */
+.settings-tab-content {
+    display: none;
+}
+
+.settings-tab-content.active {
+    display: block;
+}
+
+/* Settings Grid */
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 25px;
+}
+
+/* Settings Card */
+.settings-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.settings-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(79, 70, 229, 0.15);
+}
+
+.settings-card-header {
+    padding: 20px;
+    background: linear-gradient(135deg, #f8f9ff 0%, #ffffff 100%);
+    border-bottom: 1px solid #eef2f6;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.settings-card-header i {
+    font-size: 1.8rem;
+    color: #4f46e5;
+    background: rgba(79, 70, 229, 0.1);
+    padding: 12px;
+    border-radius: 12px;
+}
+
+.settings-card-header h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1e293b;
+}
+
+.settings-card-body {
+    padding: 20px;
+}
+
+/* Form Groups */
+.settings-form-group {
+    margin-bottom: 20px;
+}
+
+.settings-form-group:last-child {
+    margin-bottom: 0;
+}
+
+.settings-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #334155;
+    font-size: 0.95rem;
+}
+
+.settings-label i {
+    color: #4f46e5;
+    font-size: 1rem;
+}
+
+.settings-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    transition: all 0.3s;
+    background: white;
+}
+
+.settings-input:focus {
+    outline: none;
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+}
+
+.settings-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    background: white;
+    cursor: pointer;
+}
+
+.settings-select:focus {
+    outline: none;
+    border-color: #4f46e5;
+}
+
+.settings-checkbox {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+    accent-color: #4f46e5;
+    cursor: pointer;
+}
+
+.settings-hint {
+    display: block;
+    margin-top: 5px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+/* Input with unit */
+.input-with-unit {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.input-with-unit .settings-input {
+    flex: 1;
+}
+
+.input-unit {
+    color: #64748b;
+    font-weight: 500;
+    min-width: 60px;
+}
+
+/* Info Items */
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eef2f6;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    color: #64748b;
+    font-weight: 500;
+}
+
+.info-value {
+    color: #1e293b;
+    font-weight: 600;
+}
+
+/* Badge Success */
+.badge-success {
+    background: #10b981;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+}
+
+/* Theme Selector */
+.theme-selector {
+    display: flex;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.theme-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.theme-option i {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #64748b;
+}
+
+.theme-option span {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.theme-option:hover {
+    border-color: #4f46e5;
+    background: #f8f9ff;
+}
+
+.theme-option.active {
+    border-color: #4f46e5;
+    background: #4f46e5;
+}
+
+.theme-option.active i,
+.theme-option.active span {
+    color: white;
+}
+
+/* Color Picker */
+.color-picker {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.color-input {
+    width: 50px;
+    height: 50px;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 2px;
+}
+
+/* Logo Upload */
+.logo-upload {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo-preview {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #4f46e5 0%, #818cf8 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 2rem;
+}
+
+.btn-upload {
+    padding: 10px 20px;
+    background: #f1f5f9;
+    border: 2px solid #e2e8f0;
+    border-radius: 8px;
+    color: #334155;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-upload:hover {
+    background: #e2e8f0;
+}
+
+/* Template Items */
+.template-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.template-item:last-child {
+    margin-bottom: 0;
+}
+
+.btn-edit {
+    padding: 5px 12px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s;
+}
+
+.btn-edit:hover {
+    background: #6366f1;
+    transform: translateY(-2px);
+}
+
+/* Backup Actions */
+.backup-info {
+    background: #f8fafc;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.backup-info p {
+    margin: 5px 0;
+    color: #334155;
+}
+
+.backup-actions {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+/* Upload Area */
+.upload-area {
+    text-align: center;
+    padding: 30px;
+    border: 2px dashed #e2e8f0;
+    border-radius: 12px;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.upload-area:hover {
+    border-color: #4f46e5;
+    background: #f0f0ff;
+}
+
+.upload-area i {
+    font-size: 3rem;
+    color: #4f46e5;
+    margin-bottom: 10px;
+}
+
+.upload-area p {
+    color: #64748b;
+    margin: 5px 0;
+}
+
+.upload-area span {
+    display: block;
+    margin: 10px 0;
+    color: #94a3b8;
+}
+
+/* API Items */
+.api-key-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background: #f8fafc;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.api-key-item code {
+    display: block;
+    background: #1e293b;
+    color: #a5f3fc;
+    padding: 5px 10px;
+    border-radius: 6px;
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+.btn-copy {
+    padding: 8px 15px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-copy:hover {
+    background: #6366f1;
+}
+
+/* Webhook Items */
+.webhook-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.btn-add {
+    padding: 0 20px;
+    background: #4f46e5;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-add:hover {
+    background: #6366f1;
+}
+
+.webhook-list {
+    margin-top: 15px;
+}
+
+.webhook-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: #f8fafc;
+    border-radius: 6px;
+    margin-bottom: 5px;
+}
+
+.webhook-entry i {
+    color: #ef4444;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: opacity 0.3s;
+}
+
+.webhook-entry i:hover {
+    opacity: 1;
+}
+
+/* Buttons */
+.btn-primary {
+    background: #4f46e5;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-primary:hover {
+    background: #6366f1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.btn-secondary {
+    background: #f1f5f9;
+    color: #334155;
+    border: 2px solid #e2e8f0;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background: #e2e8f0;
+}
+
+.btn-large {
+    padding: 15px 40px;
+    font-size: 1.1rem;
+}
+
+/* ===================================== */
+/* DARK MODE - COMPLETE */
+/* ===================================== */
+
+body.dark-mode {
+    background: #121212;
+    color: #ffffff;
+}
+
+/* Sidebar Dark Mode */
+body.dark-mode .sidebar {
+    background: #1e1e1e;
+    border-right: 1px solid #333;
+}
+
+body.dark-mode .sidebar-header {
+    color: #4f46e5;
+    border-bottom-color: #333;
+}
+
+body.dark-mode .user-info {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .user-info h4 {
+    color: #ffffff;
+}
+
+body.dark-mode .user-info p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .sidebar-nav a {
+    color: #e0e0e0;
+}
+
+body.dark-mode .sidebar-nav a:hover,
+body.dark-mode .sidebar-nav a.active {
+    background: #2d2d2d;
+    color: #4f46e5;
+    border-left-color: #4f46e5;
+}
+
+/* Main Content Dark Mode */
+body.dark-mode .main-content {
+    background: #121212;
+}
+
+body.dark-mode .dashboard-header h1 {
+    color: #ffffff;
+}
+
+/* Stats Cards Dark Mode */
+body.dark-mode .stat-card {
+    background: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .stat-card h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .stat-card p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .stat-card i {
+    color: #4f46e5;
+}
+
+/* Exams Section Dark Mode */
+body.dark-mode .exams-section {
+    background: #1e1e1e;
+}
+
+body.dark-mode .exams-section h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .exam-card {
+    background: #2d2d2d;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .exam-body {
+    background: #2d2d2d;
+}
+
+body.dark-mode .exam-body p {
+    color: #e0e0e0;
+}
+
+body.dark-mode .exam-body p i {
+    color: #4f46e5;
+}
+
+/* Tables Dark Mode */
+body.dark-mode table {
+    background: #1e1e1e;
+}
+
+body.dark-mode th {
+    background: #2d2d2d;
+    color: #ffffff;
+}
+
+body.dark-mode td {
+    color: #e0e0e0;
+    border-bottom-color: #333;
+}
+
+body.dark-mode tr:hover {
+    background: #2d2d2d;
+}
+
+/* Form Elements Dark Mode */
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+body.dark-mode input::placeholder {
+    color: #888;
+}
+
+body.dark-mode select {
+    color: #ffffff;
+}
+
+body.dark-mode select option {
+    background: #2d2d2d;
+    color: #ffffff;
+}
+
+/* Buttons Dark Mode */
+body.dark-mode .btn-primary {
+    background: #4f46e5;
+    color: white;
+}
+
+body.dark-mode .btn-secondary {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border-color: #404040;
+}
+
+body.dark-mode .btn-secondary:hover {
+    background: #404040;
+}
+
+/* Progress Bars Dark Mode */
+body.dark-mode progress {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode progress::-webkit-progress-bar {
+    background-color: #2d2d2d;
+}
+
+/* Notification Badge Dark Mode */
+body.dark-mode .notification-badge i {
+    color: #e0e0e0;
+}
+
+/* Theme Toggle Dark Mode */
+body.dark-mode .theme-toggle {
+    background: #2d2d2d;
+}
+
+body.dark-mode .toggle-ball {
+    background: #4f46e5;
+    transform: translateX(30px);
+}
+
+body.dark-mode .theme-toggle .fa-moon {
+    color: #ffd700;
+}
+
+body.dark-mode .theme-toggle .fa-sun {
+    color: #888;
+}
+
+/* Dashboard Cards Dark Mode */
+body.dark-mode .dashboard-card {
+    background: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .exam-item {
+    background: #2d2d2d;
+}
+
+body.dark-mode .exam-item small {
+    color: #b0b0b0;
+}
+
+body.dark-mode .alert-item small {
+    color: #b0b0b0;
+}
+
+body.dark-mode .alert-warning {
+    background: #2d2d2d;
+    border-left-color: #ef4444;
+}
+
+body.dark-mode .alert-warning p {
+    color: #ef4444;
+}
+
+body.dark-mode .violation-item {
+    background: #2d2d2d;
+    border-left-color: #ef4444;
+}
+
+body.dark-mode .violation-item p {
+    color: #ef4444;
+}
+
+body.dark-mode .violation-item small {
+    color: #b0b0b0;
+}
+
+/* Question Card Dark Mode */
+body.dark-mode .question-card {
+    background: #2d2d2d;
+    border-color: #404040;
+}
+
+/* Monitor Card Dark Mode */
+body.dark-mode .monitor-card {
+    background: #1e1e1e;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .monitor-info p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .monitor-info h4 {
+    color: #ffffff;
+}
+
+/* Violation Badge Dark Mode */
+body.dark-mode .violation-badge.warning {
+    background: #2d2d2d;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+}
+
+body.dark-mode .violation-badge.safe {
+    background: #2d2d2d;
+    border: 1px solid #10b981;
+    color: #10b981;
+}
+
+/* Profile Info Dark Mode */
+body.dark-mode .profile-info p {
+    border-bottom-color: #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode .profile-info p strong {
+    color: #ffffff;
+}
+
+/* Settings Page Dark Mode */
+body.dark-mode .settings-tabs {
+    background: #1e1e1e;
+}
+
+body.dark-mode .settings-tab {
+    color: #b0b0b0;
+}
+
+body.dark-mode .settings-tab:hover {
+    background: #2d2d2d;
+    color: #4f46e5;
+}
+
+body.dark-mode .settings-card {
+    background: #1e1e1e;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+body.dark-mode .settings-card-header {
+    background: linear-gradient(135deg, #2d2d2d 0%, #1e1e1e 100%);
+    border-bottom-color: #333;
+}
+
+body.dark-mode .settings-card-header h3 {
+    color: #ffffff;
+}
+
+body.dark-mode .settings-card-header i {
+    background: rgba(79, 70, 229, 0.2);
+}
+
+body.dark-mode .settings-label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .settings-input,
+body.dark-mode .settings-select {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+body.dark-mode .settings-input:focus,
+body.dark-mode .settings-select:focus {
+    border-color: #4f46e5;
+}
+
+body.dark-mode .settings-hint {
+    color: #888;
+}
+
+body.dark-mode .info-item {
+    border-bottom-color: #333;
+}
+
+body.dark-mode .info-label {
+    color: #b0b0b0;
+}
+
+body.dark-mode .info-value {
+    color: #ffffff;
+}
+
+body.dark-mode .theme-option {
+    border-color: #404040;
+}
+
+body.dark-mode .theme-option i,
+body.dark-mode .theme-option span {
+    color: #b0b0b0;
+}
+
+body.dark-mode .theme-option:hover {
+    border-color: #4f46e5;
+    background: #2d2d2d;
+}
+
+body.dark-mode .btn-upload {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn-upload:hover {
+    background: #404040;
+}
+
+body.dark-mode .template-item {
+    background: #2d2d2d;
+}
+
+body.dark-mode .backup-info {
+    background: #2d2d2d;
+}
+
+body.dark-mode .backup-info p {
+    color: #e0e0e0;
+}
+
+body.dark-mode .upload-area {
+    border-color: #404040;
+    background: #2d2d2d;
+}
+
+body.dark-mode .upload-area:hover {
+    border-color: #4f46e5;
+    background: #2d2d2d;
+}
+
+body.dark-mode .upload-area p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .api-key-item {
+    background: #2d2d2d;
+}
+
+body.dark-mode .api-key-item code {
+    background: #0a0a0a;
+}
+
+body.dark-mode .webhook-entry {
+    background: #2d2d2d;
+}
+
+body.dark-mode hr {
+    border-color: #404040;
+}
+
+/* Scrollbar Dark Mode */
+body.dark-mode ::-webkit-scrollbar {
+    width: 10px;
+}
+
+body.dark-mode ::-webkit-scrollbar-track {
+    background: #1e1e1e;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 5px;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb:hover {
+    background: #4f46e5;
+}
+/* ===================================== */
+/* STUDENT DASHBOARD DARK MODE FIXES */
+/* ===================================== */
+
+/* Student dashboard specific fixes */
+body.dark-mode .student-dashboard .dashboard-header h1,
+body.dark-mode .student-dashboard h1,
+body.dark-mode .student-dashboard h2,
+body.dark-mode .student-dashboard h3,
+body.dark-mode .student-dashboard h4 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .student-dashboard p,
+body.dark-mode .student-dashboard span,
+body.dark-mode .student-dashboard div:not(.stat-card):not(.exam-card) {
+    color: #e0e0e0;
+}
+
+/* Fix stat cards in student dashboard */
+body.dark-mode .student-dashboard .stat-card {
+    background: #1e1e1e !important;
+}
+
+body.dark-mode .student-dashboard .stat-card h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .student-dashboard .stat-card p {
+    color: #b0b0b0 !important;
+}
+
+/* Fix exam cards in student dashboard */
+body.dark-mode .student-dashboard .exam-card {
+    background: #1e1e1e;
+}
+
+body.dark-mode .student-dashboard .exam-body {
+    background: #1e1e1e;
+}
+
+body.dark-mode .student-dashboard .exam-body p {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .student-dashboard .exam-body p i {
+    color: #4f46e5 !important;
+}
+
+/* Fix available exams section */
+body.dark-mode .student-dashboard .exams-section {
+    background: #1e1e1e;
+}
+
+body.dark-mode .student-dashboard .exams-section h2 {
+    color: #ffffff !important;
+}
+
+/* Fix profile page in student dashboard */
+body.dark-mode .student-dashboard .profile-info p {
+    color: #e0e0e0 !important;
+    border-bottom-color: #333;
+}
+
+body.dark-mode .student-dashboard .profile-info p strong {
+    color: #ffffff !important;
+}
+
+/* Fix tables in student dashboard */
+body.dark-mode .student-dashboard table {
+    background: #1e1e1e;
+}
+
+body.dark-mode .student-dashboard th {
+    background: #2d2d2d;
+    color: #ffffff !important;
+}
+
+body.dark-mode .student-dashboard td {
+    color: #e0e0e0 !important;
+    border-bottom-color: #333;
+}
+
+/* Fix progress bars */
+body.dark-mode .student-dashboard progress {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .student-dashboard progress::-webkit-progress-bar {
+    background-color: #2d2d2d;
+}
+
+body.dark-mode .student-dashboard progress::-webkit-progress-value {
+    background-color: #4f46e5;
+}
+
+/* Fix welcome message */
+body.dark-mode .student-dashboard .dashboard-header h1 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .student-dashboard .dashboard-header h1 span {
+    color: #4f46e5 !important;
+}
+
+/* Fix notification badge */
+body.dark-mode .student-dashboard .notification-badge i {
+    color: #e0e0e0 !important;
+}
+
+/* Fix all text elements */
+body.dark-mode .student-dashboard .main-content {
+    background: #121212;
+}
+
+body.dark-mode .student-dashboard .main-content *:not(button):not(.btn-start-exam):not(.badge) {
+    color: inherit;
+}
+
+body.dark-mode .student-dashboard .main-content h1,
+body.dark-mode .student-dashboard .main-content h2,
+body.dark-mode .student-dashboard .main-content h3,
+body.dark-mode .student-dashboard .main-content h4,
+body.dark-mode .student-dashboard .main-content h5,
+body.dark-mode .student-dashboard .main-content h6 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .student-dashboard .main-content p,
+body.dark-mode .student-dashboard .main-content span,
+body.dark-mode .student-dashboard .main-content li,
+body.dark-mode .student-dashboard .main-content td {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode .student-dashboard .main-content strong,
+body.dark-mode .student-dashboard .main-content b {
+    color: #ffffff !important;
+}
+/* ===================================== */
+/* STUDENT DASHBOARD DARK MODE FIXES - COMPLETE */
+/* ===================================== */
+
+/* Main student dashboard container */
+body.dark-mode.student-dashboard .main-content {
+    background: #121212;
+}
+
+/* All headings */
+body.dark-mode.student-dashboard h1.dark-visible,
+body.dark-mode.student-dashboard h2.dark-visible,
+body.dark-mode.student-dashboard h3.dark-visible,
+body.dark-mode.student-dashboard h4.dark-visible {
+    color: #ffffff !important;
+}
+
+/* Highlighted text */
+body.dark-mode.student-dashboard .dark-highlight {
+    color: #4f46e5 !important;
+}
+
+/* Regular text */
+body.dark-mode.student-dashboard .dark-text {
+    color: #e0e0e0 !important;
+}
+
+/* Dashboard header */
+body.dark-mode.student-dashboard .dashboard-header h1 {
+    color: #ffffff !important;
+}
+
+/* Stats cards */
+body.dark-mode.student-dashboard .stat-card {
+    background: #1e1e1e !important;
+}
+
+body.dark-mode.student-dashboard .stat-card h3 {
+    color: #ffffff !important;
+}
+
+body.dark-mode.student-dashboard .stat-card p {
+    color: #b0b0b0 !important;
+}
+
+/* Exams section */
+body.dark-mode.student-dashboard .exams-section {
+    background: #1e1e1e !important;
+}
+
+body.dark-mode.student-dashboard .exams-section h2 {
+    color: #ffffff !important;
+}
+
+/* Exam cards */
+body.dark-mode.student-dashboard .exam-card {
+    background: #2d2d2d !important;
+}
+
+body.dark-mode.student-dashboard .exam-body {
+    background: #2d2d2d !important;
+}
+
+body.dark-mode.student-dashboard .exam-body p {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode.student-dashboard .exam-body p i {
+    color: #4f46e5 !important;
+}
+
+/* Tables */
+body.dark-mode.student-dashboard table {
+    background: #1e1e1e !important;
+}
+
+body.dark-mode.student-dashboard th {
+    background: #2d2d2d !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode.student-dashboard td {
+    color: #e0e0e0 !important;
+    border-bottom-color: #333 !important;
+}
+
+/* Profile page */
+body.dark-mode.student-dashboard .profile-info p {
+    color: #e0e0e0 !important;
+}
+
+body.dark-mode.student-dashboard .profile-info p strong {
+    color: #ffffff !important;
+}
+
+body.dark-mode.student-dashboard label {
+    color: #e0e0e0 !important;
+}
+
+/* Progress bars text */
+body.dark-mode.student-dashboard span.dark-visible {
+    color: #ffffff !important;
+}
+
+/* Status badges in dark mode */
+body.dark-mode.student-dashboard .status-badge {
+    color: white !important;
+}
+
+/* Fix for any remaining white text issues */
+body.dark-mode.student-dashboard .main-content *:not(button):not(.btn-start-exam):not(.badge):not(.status-badge):not(.role-badge) {
+    color: inherit;
+}
+
+body.dark-mode.student-dashboard .main-content h1,
+body.dark-mode.student-dashboard .main-content h2,
+body.dark-mode.student-dashboard .main-content h3,
+body.dark-mode.student-dashboard .main-content h4 {
+    color: #ffffff !important;
+}
+
+body.dark-mode.student-dashboard .main-content p,
+body.dark-mode.student-dashboard .main-content span,
+body.dark-mode.student-dashboard .main-content li,
+body.dark-mode.student-dashboard .main-content td:not(.status-badge) {
+    color: #e0e0e0 !important;
+}

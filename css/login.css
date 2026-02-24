@@ -1,0 +1,333 @@
+/* css/login.css */
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 2rem;
+}
+
+.login-box {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    padding: 3rem;
+    width: 100%;
+    max-width: 450px;
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-header i {
+    font-size: 3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.login-header h2 {
+    font-size: 2rem;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.login-header p {
+    color: #666;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+    font-weight: 500;
+}
+
+.form-group label i {
+    margin-right: 0.5rem;
+    color: var(--primary-color);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-group input::placeholder {
+    color: #999;
+}
+
+.role-select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid #e1e1e1;
+    border-radius: 10px;
+    font-size: 1rem;
+    background: white;
+    cursor: pointer;
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+    color: var(--secondary-color);
+}
+
+.btn-login-submit {
+    width: 100%;
+    padding: 1rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.btn-login-submit:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.login-footer {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.login-footer a {
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.login-footer a:hover {
+    text-decoration: underline;
+    color: var(--secondary-color);
+}
+
+.demo-credentials {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.demo-credentials p {
+    margin: 0.25rem 0;
+}
+
+.demo-credentials strong {
+    color: var(--dark-color);
+}
+
+/* Theme Toggle */
+.theme-toggle {
+    position: relative;
+    width: 60px;
+    height: 30px;
+    background: #e0e0e0;
+    border-radius: 30px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5px;
+    transition: background 0.3s;
+}
+
+.theme-toggle i {
+    font-size: 14px;
+    z-index: 1;
+    color: #666;
+}
+
+.theme-toggle .fa-sun {
+    color: #ffd700;
+}
+
+.theme-toggle .fa-moon {
+    color: #4a4a4a;
+}
+
+.toggle-ball {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: white;
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.3s;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ===================================== */
+/* IMPROVED DARK MODE FOR LOGIN PAGE */
+/* ===================================== */
+
+body.dark-mode {
+    background: #121212;
+}
+
+body.dark-mode .login-container {
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+}
+
+body.dark-mode .login-box {
+    background: #1e1e1e;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+body.dark-mode .login-header i {
+    color: #4f46e5;
+}
+
+body.dark-mode .login-header h2 {
+    color: #ffffff;
+}
+
+body.dark-mode .login-header p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .form-group label {
+    color: #e0e0e0;
+}
+
+body.dark-mode .form-group label i {
+    color: #4f46e5;
+}
+
+body.dark-mode .form-group input {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+body.dark-mode .form-group input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.2);
+}
+
+body.dark-mode .form-group input::placeholder {
+    color: #888;
+}
+
+body.dark-mode .role-select {
+    background: #2d2d2d;
+    border-color: #404040;
+    color: #ffffff;
+}
+
+body.dark-mode .role-select option {
+    background: #2d2d2d;
+    color: #ffffff;
+}
+
+body.dark-mode .remember-me {
+    color: #b0b0b0;
+}
+
+body.dark-mode .forgot-password {
+    color: #4f46e5;
+}
+
+body.dark-mode .btn-login-submit {
+    background: #4f46e5;
+}
+
+body.dark-mode .btn-login-submit:hover {
+    background: #6366f1;
+}
+
+body.dark-mode .login-footer p {
+    color: #b0b0b0;
+}
+
+body.dark-mode .login-footer a {
+    color: #4f46e5;
+}
+
+body.dark-mode .demo-credentials {
+    background: #2d2d2d;
+    color: #e0e0e0;
+    border: 1px solid #404040;
+}
+
+body.dark-mode .demo-credentials strong {
+    color: #ffffff;
+}
+
+body.dark-mode .theme-toggle {
+    background: #2d2d2d;
+}
+
+body.dark-mode .toggle-ball {
+    background: #4f46e5;
+    transform: translateX(30px);
+}
+
+body.dark-mode .theme-toggle .fa-moon {
+    color: #ffd700;
+}
+
+body.dark-mode .theme-toggle .fa-sun {
+    color: #888;
+}

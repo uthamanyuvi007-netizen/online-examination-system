@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-crown"></i>
+                <span>Admin Portal</span>
+            </div>
+            
+            <div class="user-info">
+                <img src="../assets/images/avatar-placeholder.png" onerror="this.src='https://via.placeholder.com/50'">
+                <div>
+                    <h4 id="userName">Admin</h4>
+                    <p><i class="fas fa-crown"></i> Administrator</p>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <a href="#" class="active" id="dashboardBtn"><i class="fas fa-home"></i> Dashboard</a>
+                <a href="#" id="usersBtn"><i class="fas fa-users"></i> All Users</a>
+                <a href="#" id="teachersBtn"><i class="fas fa-chalkboard-teacher"></i> Teachers</a>
+                <a href="#" id="studentsBtn"><i class="fas fa-user-graduate"></i> Students</a>
+                <a href="#" id="examsBtn"><i class="fas fa-pencil-alt"></i> All Exams</a>
+                <a href="#" id="reportsBtn"><i class="fas fa-chart-bar"></i> Reports</a>
+                <a href="#" id="settingsBtn"><i class="fas fa-cog"></i> Settings</a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+        
+        <!-- Main Content -->
+        <main class="main-content" id="mainContent">
+            <!-- Content will be loaded dynamically -->
+        </main>
+    </div>
+    
+    <script src="../js/main.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+</html>
