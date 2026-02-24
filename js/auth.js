@@ -1,66 +1,45 @@
-// js/auth.js
-document.getElementById('loginForm')?.addEventListener('submit', function(e) {
+// js/auth.js - Using Backend API
+
+// Login handler
+document.getElementById('loginForm')?.addEventListener('submit', async function(e) {
     e.preventDefault();
     
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
+    const submitBtn = this.querySelector('button[type="submit"]');
     
     if (!email || !password) {
-        alert('Please fill in all fields');
+        alert('❌ Please fill in all fields');
         return;
     }
     
-    // Check registered users from localStorage
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = users.find(u => u.email === email && u.password === password);
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Logging in...';
     
-    if (user) {
-        // Store user info
-        sessionStorage.setItem('user', JSON.stringify({
-            id: user.id || Date.now(),
-            name: user.name,
-            email: user.email,
-            role: user.role
-        }));
+    try {
+        const result = await API.auth.login(email, password);
         
-        // Redirect based on role
-        if (user.role === 'admin') {
-            window.location.href = 'pages/admin-dashboard.html';
-        } else if (user.role === 'teacher') {
-            window.location.href = 'pages/teacher-dashboard.html';
+        if (result.success) {
+            const user = result.data.user;
+            
+            // Redirect based on role
+            if (user.role === 'admin') {
+                window.location.href = 'pages/admin-dashboard.html';
+            } else if (user.role === 'teacher') {
+                window.location.href = 'pages/teacher-dashboard.html';
+            } else {
+                window.location.href = 'pages/student-dashboard.html';
+            }
         } else {
-            window.location.href = 'pages/student-dashboard.html';
+            alert(`❌ ${result.data.error || 'Login failed'}`);
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Login';
         }
-    } 
-    else {
-        // Demo accounts
-        if (email === 'admin@example.com' && password === 'admin123') {
-            sessionStorage.setItem('user', JSON.stringify({
-                name: 'Admin User',
-                email: email,
-                role: 'admin'
-            }));
-            window.location.href = 'pages/admin-dashboard.html';
-        } 
-        else if (email === 'teacher@example.com' && password === 'teacher123') {
-            sessionStorage.setItem('user', JSON.stringify({
-                name: 'Professor Kumar',
-                email: email,
-                role: 'teacher'
-            }));
-            window.location.href = 'pages/teacher-dashboard.html';
-        }
-        else if (email === 'student@example.com' && password === 'password123') {
-            sessionStorage.setItem('user', JSON.stringify({
-                name: 'John Student',
-                email: email,
-                role: 'student'
-            }));
-            window.location.href = 'pages/student-dashboard.html';
-        } 
-        else {
-            alert('❌ Invalid credentials');
-        }
+    } catch (err) {
+        alert(`❌ Error: ${err.message}`);
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Login';
     }
 });
 

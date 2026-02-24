@@ -49,9 +49,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Results button
-    const resultsBtn = document.getElementById('resultsBtn');
-    if (resultsBtn) {
-        resultsBtn.addEventListener('click', function(e) {
+    const myResultsBtn = document.getElementById('myResultsBtn');
+    if (myResultsBtn) {
+        myResultsBtn.addEventListener('click', function(e) {
             e.preventDefault();
             console.log('Results button clicked');
             setActive(this);

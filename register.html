@@ -67,56 +67,63 @@
         </div>
     </div>
 
-    <script src="js/main.js"></script>
-    <script>
-        document.getElementById('registerForm')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const password = document.getElementById('password').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const role = document.getElementById('role').value;
-            
-            if (!name || !email || !password) {
-                alert('❌ Please fill all fields');
-                return;
-            }
-            
-            if (password !== confirmPassword) {
-                alert('❌ Passwords do not match!');
-                return;
-            }
-            
-            if (password.length < 6) {
-                alert('❌ Password must be at least 6 characters');
-                return;
-            }
-            
-            let users = JSON.parse(localStorage.getItem('users')) || [];
-            
-            const userExists = users.some(user => user.email === email);
-            
-            if (userExists) {
-                alert('❌ Email already registered! Please login.');
-                return;
-            }
-            
-            const newUser = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                password: password,
-                role: role,
-                joined: new Date().toISOString()
-            };
-            
-            users.push(newUser);
-            localStorage.setItem('users', JSON.stringify(users));
-            
-            alert('✅ Registration successful! Please login with your credentials.');
-            window.location.href = 'login.html';
-        });
-    </script>
+            <script src="js/api.js"></script>
+            <script src="js/main.js"></script>
+            <script>
+                document.getElementById('registerForm')?.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const name = document.getElementById('name').value;
+                    const email = document.getElementById('email').value;
+                    const password = document.getElementById('password').value;
+                    const confirmPassword = document.getElementById('confirmPassword').value;
+                    const role = document.getElementById('role').value;
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    
+                    if (!name || !email || !password) {
+                        alert('❌ Please fill all fields');
+                        return;
+                    }
+                    
+                    if (password !== confirmPassword) {
+                        alert('❌ Passwords do not match!');
+                        return;
+                    }
+                    
+                    if (password.length < 6) {
+                        alert('❌ Password must be at least 6 characters');
+                        return;
+                    }
+                    
+                    // Show loading state
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Registering...';
+                    
+                    try {
+                        const result = await API.auth.register(name, email, password, role);
+                        
+                        if (result.success) {
+                            alert('✅ Registration successful! Redirecting to dashboard...');
+                            const user = result.data.user;
+                            
+                            if (user.role === 'admin') {
+                                window.location.href = 'pages/admin-dashboard.html';
+                            } else if (user.role === 'teacher') {
+                                window.location.href = 'pages/teacher-dashboard.html';
+                            } else {
+                                window.location.href = 'pages/student-dashboard.html';
+                            }
+                        } else {
+                            alert(`❌ ${result.data.error || 'Registration failed'}`);
+                            submitBtn.disabled = false;
+                            submitBtn.textContent = 'Register';
+                        }
+                    } catch (err) {
+                        alert(`❌ Error: ${err.message}`);
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Register';
+                    }
+                });
+            </script>
 </body>
 </html>
