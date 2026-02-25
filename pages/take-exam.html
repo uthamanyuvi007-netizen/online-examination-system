@@ -92,7 +92,15 @@
         </div>
     </div>
     
+    <script src="../js/api.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+        if (window.API && typeof API.setToken === 'function') API.setToken(localStorage.getItem('token'));
+        const _user = sessionStorage.getItem('user');
+        if (!_user || !localStorage.getItem('token')) {
+            window.location.href = '../login.html';
+        }
+    </script>
     <script src="../js/exam.js"></script>
     <script src="../js/proctoring.js"></script>
 </body>

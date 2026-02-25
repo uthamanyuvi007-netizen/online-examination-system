@@ -18,7 +18,7 @@
             </div>
             
             <div class="user-info">
-                <img src="../assets/images/avatar-placeholder.png" onerror="this.src='https://via.placeholder.com/50'">
+                <img src="../assets/images/avatar-placeholder.jpg" onerror="this.src='https://via.placeholder.com/150'" alt="Avatar Placeholder">
                 <div>
                     <h4 id="userName">Admin</h4>
                     <p><i class="fas fa-crown"></i> Administrator</p>
@@ -43,7 +43,15 @@
         </main>
     </div>
     
+    <script src="../js/api.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+        if (window.API && typeof API.setToken === 'function') API.setToken(localStorage.getItem('token'));
+        const _user = sessionStorage.getItem('user');
+        if (!_user || !localStorage.getItem('token')) {
+            window.location.href = '../login.html';
+        }
+    </script>
     <script src="../js/admin.js"></script>
 </body>
 </html>

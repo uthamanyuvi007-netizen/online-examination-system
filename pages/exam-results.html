@@ -184,10 +184,17 @@
         </main>
     </div>
     
+    <script src="../js/api.js"></script>
     <script>
+        if (window.API && typeof API.setToken === 'function') API.setToken(localStorage.getItem('token'));
+        const _user = sessionStorage.getItem('user');
+        if (!_user || !localStorage.getItem('token')) {
+            window.location.href = '../login.html';
+        }
+
         document.getElementById('logoutBtn')?.addEventListener('click', function(e) {
             e.preventDefault();
-            sessionStorage.removeItem('user');
+            API.auth.logout();
             window.location.href = '../login.html';
         });
     </script>

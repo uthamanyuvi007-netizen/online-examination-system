@@ -117,6 +117,19 @@ const users = {
     }
 };
 
+// Admin: get all users
+users.getAll = async () => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/users`, {
+            headers: getAuthHeader()
+        });
+        const data = await response.json();
+        return { success: response.ok, data };
+    } catch (err) {
+        return { success: false, error: err.message };
+    }
+};
+
 // ========== EXAM MANAGEMENT ==========
 
 const exams = {

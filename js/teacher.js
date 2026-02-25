@@ -32,25 +32,46 @@ document.addEventListener('DOMContentLoaded', function() {
         loadMonitor();
     });
     
-    document.getElementById('resultsBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        setActive(e.target);
-        loadResults();
-    });
-    
-    document.getElementById('profileBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        setActive(e.target);
-        loadProfile();
-    });
-    
-    document.getElementById('logoutBtn')?.addEventListener('click', (e) => {
-        e.preventDefault();
-        if (confirm('Logout?')) {
-            sessionStorage.removeItem('user');
+    const profileBtn = document.getElementById('profileBtn');
+    if (profileBtn) {
+        profileBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Profile clicked');
+            setActive(this);
+            loadProfile();
+        });
+    }
+
+    const resultsBtn = document.getElementById('resultsBtn');
+    if (resultsBtn) {
+        console.log('Binding results button listener');
+        resultsBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Results clicked');
+            setActive(this);
+            try {
+                if (typeof loadResults === 'function') {
+                    loadResults();
+                } else if (typeof window.loadResults === 'function') {
+                    window.loadResults();
+                } else {
+                    console.error('loadResults is not defined');
+                }
+            } catch (err) {
+                console.error('Error calling loadResults:', err);
+            }
+        });
+    }
+
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log('Logout clicked');
+            sessionStorage.clear();
             window.location.href = '../login.html';
-        }
-    });
+        });
+    }
 });
 
 function setActive(element) {

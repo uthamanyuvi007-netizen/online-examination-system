@@ -18,7 +18,7 @@
             </div>
             
             <div class="user-info">
-                <img src="../assets/images/avatar-placeholder.png" onerror="this.src='https://via.placeholder.com/50'">
+                <img src="../assets/images/avatar-placeholder.jpg" onerror="this.src='https://via.placeholder.com/50'">
                 <div>
                     <h4 id="userName">Teacher</h4>
                     <p><i class="fas fa-chalkboard-teacher"></i> Teacher</p>
@@ -38,11 +38,20 @@
         
         <!-- Main Content -->
         <main class="main-content" id="mainContent">
-            <!-- Dynamic content loads here -->
+            <h1>Welcome to the Teacher Dashboard</h1>
+            <p>Select an option from the sidebar to get started.</p>
         </main>
     </div>
     
+    <script src="../js/api.js"></script>
     <script src="../js/main.js"></script>
+    <script>
+        if (window.API && typeof API.setToken === 'function') API.setToken(localStorage.getItem('token'));
+        const _user = sessionStorage.getItem('user');
+        if (!_user || !localStorage.getItem('token')) {
+            window.location.href = '../login.html';
+        }
+    </script>
     <script src="../js/teacher.js"></script>
 </body>
 </html>

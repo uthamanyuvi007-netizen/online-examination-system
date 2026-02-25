@@ -149,6 +149,20 @@ app.get('/api/users/teachers', authenticateToken, async (req, res) => {
     }
 });
 
+// Get all users (admin only)
+app.get('/api/users', authenticateToken, async (req, res) => {
+    try {
+        if (req.user.role !== 'admin') {
+            return res.status(403).json({ error: 'Only admins can view all users' });
+        }
+
+        const users = await allAsync('SELECT id, name, email, role, joined FROM users ORDER BY joined DESC');
+        res.json(users);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
 // Get user by ID
 app.get('/api/users/:id', authenticateToken, async (req, res) => {
     try {

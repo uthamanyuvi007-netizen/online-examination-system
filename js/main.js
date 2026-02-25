@@ -43,11 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
     // SMOOTH SCROLLING
     // =====================================
     
-    // Smooth scrolling for anchor links
+    // Smooth scrolling for anchor links (skip empty anchors '#')
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            if (!href || href === '#') return; // skip placeholders
             e.preventDefault();
-            const target = document.querySelector(this.getAttribute('href'));
+            let target = null;
+            try {
+                target = document.querySelector(href);
+            } catch (err) {
+                // invalid selector -> skip
+                return;
+            }
             if (target) {
                 target.scrollIntoView({
                     behavior: 'smooth',

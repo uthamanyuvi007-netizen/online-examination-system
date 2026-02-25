@@ -48,8 +48,9 @@ function checkAuth() {
     const user = sessionStorage.getItem('user');
     const currentPage = window.location.pathname.split('/').pop();
     const publicPages = ['index.html', 'login.html', 'register.html'];
-    
-    if (!user && !publicPages.includes(currentPage)) {
+    const token = localStorage.getItem('token');
+
+    if ((!user || !token) && !publicPages.includes(currentPage)) {
         window.location.href = '../login.html';
     }
 }

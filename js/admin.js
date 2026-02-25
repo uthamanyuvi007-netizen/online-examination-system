@@ -113,20 +113,31 @@ function setActive(element) {
 // =====================================
 // DASHBOARD FUNCTION
 // =====================================
-function loadDashboard() {
+async function loadDashboard() {
     console.log('Loading dashboard');
-    
+
     const user = JSON.parse(sessionStorage.getItem('user')) || { name: 'Admin' };
-    
-    // Get users from localStorage
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const students = users.filter(u => u.role === 'student').length;
-    const teachers = users.filter(u => u.role === 'teacher').length;
-    const admins = users.filter(u => u.role === 'admin').length;
-    const totalUsers = users.length;
-    
+
     const mainContent = document.getElementById('mainContent');
-    
+
+    // Fetch users from API
+    let students = 0, teachers = 0, admins = 0, totalUsers = 0;
+    let users = [];
+    try {
+        const res = await API.users.getAll();
+        if (res.success) {
+            users = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+            students = users.filter(u => u.role === 'student').length;
+            teachers = users.filter(u => u.role === 'teacher').length;
+            admins = users.filter(u => u.role === 'admin').length;
+            totalUsers = users.length;
+        } else {
+            console.error('Failed to load users for dashboard', res.error || res.data);
+        }
+    } catch (err) {
+        console.error('Error loading users for dashboard', err);
+    }
+
     mainContent.innerHTML = `
         <div class="dashboard-header">
             <h1>Welcome, Admin ${user.name}! 👑</h1>
@@ -226,7 +237,7 @@ function loadDashboard() {
                     </tr>
                 </thead>
                 <tbody>
-                    ${users.slice(-5).map(user => `
+                    ${ (Array.isArray(users) ? users.slice(-5) : []).map(user => `
                         <tr>
                             <td>${user.name || 'N/A'}</td>
                             <td>${user.email}</td>
@@ -242,16 +253,54 @@ function loadDashboard() {
     
     // Re-initialize theme toggle
     initThemeToggle();
+    // populate users table
+    try {
+        const res = await API.users.getAll();
+        const tbody = document.getElementById('allUsersTableBody');
+        if (res.success && tbody) {
+            const users = res.data || [];
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.name || 'N/A'}</td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge role-${user.role || 'student'}">${user.role || 'student'}</span></td>
+                    <td><span style="color: #10b981;">●</span> Active</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="alert('Edit user: ${user.email}')"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="if(confirm('Delete user?')) deleteUser(${user.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        } else if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px;">No users found or failed to load.</td></tr>`;
+        }
+    } catch (err) {
+        console.error('Error populating users table', err);
+    }
+}
+
+// Delete user helper
+async function deleteUser(userId) {
+    if (!confirm('Delete user permanently?')) return;
+    try {
+        const res = await API.users.delete(userId);
+        if (res.success) {
+            alert('User deleted');
+            loadAllUsers();
+        } else {
+            alert('Delete failed: ' + (res.data?.error || res.error || 'Unknown'));
+        }
+    } catch (err) {
+        alert('Error deleting user: ' + err.message);
+    }
 }
 
 // =====================================
 // ALL USERS FUNCTION
 // =====================================
-function loadAllUsers() {
+async function loadAllUsers() {
     console.log('Loading all users');
-    
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    
+
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
         <div class="dashboard-header">
@@ -282,40 +331,48 @@ function loadAllUsers() {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    ${users.map(user => `
-                        <tr>
-                            <td>${user.name || 'N/A'}</td>
-                            <td>${user.email}</td>
-                            <td><span class="role-badge role-${user.role || 'student'}">${user.role || 'student'}</span></td>
-                            <td><span style="color: #10b981;">●</span> Active</td>
-                            <td>
-                                <button class="action-btn edit-btn" onclick="alert('Edit user: ${user.email}')"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete-btn" onclick="if(confirm('Delete user?')) alert('User deleted')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `).join('')}
+                <tbody id="allUsersTableBody">
+                    <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
                 </tbody>
             </table>
         </div>
     `;
-    
-    initThemeToggle();
+
+    try {
+        const res = await API.users.getAll();
+        const tbody = document.getElementById('allUsersTableBody');
+        if (res.success && tbody) {
+            const users = res.data || [];
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.name || 'N/A'}</td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge role-${user.role || 'student'}">${user.role || 'student'}</span></td>
+                    <td><span style="color: #10b981;">●</span> Active</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="alert('Edit user: ${user.email}')"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="if(confirm('Delete user?')) deleteUser(${user.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        } else if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px;">No users found or failed to load.</td></tr>`;
+        }
+    } catch (err) {
+        console.error('Error populating users table', err);
+    }
 }
 
 // =====================================
 // TEACHERS FUNCTION
 // =====================================
-function loadTeachers() {
+async function loadTeachers() {
     console.log('Loading teachers');
-    
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const teachers = users.filter(u => u.role === 'teacher');
-    
+
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
         <div class="dashboard-header">
-            <h1>👨‍🏫 Teachers</h1>
+            <h1>👩‍🏫 Teachers</h1>
             <div class="header-actions">
                 <div class="theme-toggle" id="themeToggle">
                     <i class="fas fa-moon"></i>
@@ -324,58 +381,62 @@ function loadTeachers() {
                 </div>
             </div>
         </div>
-        
+
         <div style="margin-bottom: 20px;">
             <button class="btn-primary" onclick="alert('Add teacher feature coming soon!')">
                 <i class="fas fa-plus"></i> Add New Teacher
             </button>
         </div>
-        
+
         <div class="dashboard-card" style="padding: 0; overflow: hidden;">
             <table style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Department</th>
-                        <th>Exams Created</th>
+                        <th>Role</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    ${teachers.length > 0 ? teachers.map(teacher => `
-                        <tr>
-                            <td>${teacher.name || 'N/A'}</td>
-                            <td>${teacher.email}</td>
-                            <td>Mathematics</td>
-                            <td>8</td>
-                            <td>
-                                <button class="action-btn edit-btn" onclick="alert('Edit teacher: ${teacher.email}')"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete-btn" onclick="if(confirm('Delete teacher?')) alert('Teacher deleted')"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
-                    `).join('') : `
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 30px;">No teachers found</td>
-                        </tr>
-                    `}
+                <tbody id="teachersTableBody">
+                    <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
                 </tbody>
             </table>
         </div>
     `;
-    
-    initThemeToggle();
+
+    try {
+        const res = await API.users.getTeachers();
+        const tbody = document.getElementById('teachersTableBody');
+        if (res.success && tbody) {
+            const users = res.data || [];
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.name || 'N/A'}</td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge role-${user.role || 'teacher'}">${user.role || 'teacher'}</span></td>
+                    <td><span style="color: #10b981;">●</span> Active</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="alert('Edit teacher: ${user.email}')"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="if(confirm('Delete teacher?')) deleteUser(${user.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        } else if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px;">No teachers found or failed to load.</td></tr>`;
+        }
+    } catch (err) {
+        console.error('Error populating teachers table', err);
+    }
 }
 
 // =====================================
 // STUDENTS FUNCTION
 // =====================================
-function loadStudents() {
+async function loadStudents() {
     console.log('Loading students');
-    
-    const users = JSON.parse(localStorage.getItem('users')) || [];
-    const students = users.filter(u => u.role === 'student');
-    
+
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
         <div class="dashboard-header">
@@ -388,46 +449,62 @@ function loadStudents() {
                 </div>
             </div>
         </div>
-        
+
+        <div style="margin-bottom: 20px;">
+            <button class="btn-primary" onclick="alert('Add student feature coming soon!')">
+                <i class="fas fa-plus"></i> Add New Student
+            </button>
+        </div>
+
         <div class="dashboard-card" style="padding: 0; overflow: hidden;">
             <table style="width: 100%;">
                 <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
-                        <th>Exams Taken</th>
-                        <th>Avg Score</th>
+                        <th>Role</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    ${students.length > 0 ? students.map(student => `
-                        <tr>
-                            <td>${student.name || 'N/A'}</td>
-                            <td>${student.email}</td>
-                            <td>5</td>
-                            <td><span style="color: #10b981;">75%</span></td>
-                            <td><span style="color: #10b981;">●</span> Active</td>
-                        </tr>
-                    `).join('') : `
-                        <tr>
-                            <td colspan="5" style="text-align: center; padding: 30px;">No students found</td>
-                        </tr>
-                    `}
+                <tbody id="studentsTableBody">
+                    <tr><td colspan="5" style="text-align:center;">Loading...</td></tr>
                 </tbody>
             </table>
         </div>
     `;
-    
-    initThemeToggle();
+
+    try {
+        const res = await API.users.getStudents();
+        const tbody = document.getElementById('studentsTableBody');
+        if (res.success && tbody) {
+            const users = res.data || [];
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.name || 'N/A'}</td>
+                    <td>${user.email}</td>
+                    <td><span class="role-badge role-${user.role || 'student'}">${user.role || 'student'}</span></td>
+                    <td><span style="color: #10b981;">●</span> Active</td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="alert('Edit student: ${user.email}')"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="if(confirm('Delete student?')) deleteUser(${user.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        } else if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:20px;">No students found or failed to load.</td></tr>`;
+        }
+    } catch (err) {
+        console.error('Error populating students table', err);
+    }
 }
 
 // =====================================
 // ALL EXAMS FUNCTION
 // =====================================
-function loadAllExams() {
+async function loadAllExams() {
     console.log('Loading all exams');
-    
+
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
         <div class="dashboard-header">
@@ -459,54 +536,61 @@ function loadAllExams() {
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>Mathematics Final</td>
-                        <td>Prof. Kumar</td>
-                        <td>2024-01-20</td>
-                        <td>25/30</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="alert('Edit exam')"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn delete-btn" onclick="if(confirm('Delete exam?')) alert('Exam deleted')"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Physics Quiz</td>
-                        <td>Prof. Sharma</td>
-                        <td>2024-01-22</td>
-                        <td>18/30</td>
-                        <td><span class="status-badge status-upcoming">Upcoming</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="alert('Edit exam')"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn delete-btn" onclick="if(confirm('Delete exam?')) alert('Exam deleted')"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Chemistry Mid-Term</td>
-                        <td>Prof. Verma</td>
-                        <td>2024-01-15</td>
-                        <td>28/30</td>
-                        <td><span class="status-badge status-completed">Completed</span></td>
-                        <td>
-                            <button class="action-btn edit-btn" onclick="alert('Edit exam')"><i class="fas fa-edit"></i></button>
-                            <button class="action-btn delete-btn" onclick="if(confirm('Delete exam?')) alert('Exam deleted')"><i class="fas fa-trash"></i></button>
-                        </td>
-                    </tr>
+                <tbody id="allExamsTableBody">
+                    <tr><td colspan="6" style="text-align:center;">Loading...</td></tr>
                 </tbody>
             </table>
         </div>
     `;
-    
-    initThemeToggle();
+
+    try {
+        const res = await API.exams.getAll();
+        const tbody = document.getElementById('allExamsTableBody');
+        if (res.success && tbody) {
+            const exams = res.data || [];
+            tbody.innerHTML = exams.map(exam => `
+                <tr>
+                    <td>${exam.name || 'N/A'}</td>
+                    <td>${exam.createdBy || 'N/A'}</td>
+                    <td>${new Date(exam.date).toLocaleDateString()}</td>
+                    <td>${exam.students || '0'}</td>
+                    <td><span class="status-badge status-${exam.status || 'inactive'}">${exam.status || 'Inactive'}</span></td>
+                    <td>
+                        <button class="action-btn edit-btn" onclick="alert('Edit exam: ${exam.name}')"><i class="fas fa-edit"></i></button>
+                        <button class="action-btn delete-btn" onclick="if(confirm('Delete exam?')) deleteExam(${exam.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        } else if (tbody) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; padding:20px;">No exams found or failed to load.</td></tr>`;
+        }
+    } catch (err) {
+        console.error('Error populating exams table', err);
+    }
+}
+
+// Delete exam helper
+async function deleteExam(examId) {
+    if (!confirm('Delete exam permanently?')) return;
+    try {
+        const res = await API.exams.delete(examId);
+        if (res.success) {
+            alert('Exam deleted');
+            loadAllExams();
+        } else {
+            alert('Delete failed: ' + (res.data?.error || res.error || 'Unknown'));
+        }
+    } catch (err) {
+        alert('Error deleting exam: ' + err.message);
+    }
 }
 
 // =====================================
 // REPORTS FUNCTION
 // =====================================
-function loadReports() {
+async function loadReports() {
     console.log('Loading reports');
-    
+
     const mainContent = document.getElementById('mainContent');
     mainContent.innerHTML = `
         <div class="dashboard-header">
@@ -564,18 +648,17 @@ function loadReports() {
             </button>
         </div>
     `;
-    
-    initThemeToggle();
+
+    // Additional logic for dynamic data can be added here
 }
 
 // =====================================
 // SETTINGS FUNCTION
 // =====================================
-function loadSettings() {
+async function loadSettings() {
     console.log('Loading settings');
-    
+
     const mainContent = document.getElementById('mainContent');
-    
     mainContent.innerHTML = `
         <div class="dashboard-header">
             <h1>⚙️ System Settings</h1>
@@ -591,252 +674,30 @@ function loadSettings() {
                 </div>
             </div>
         </div>
-
-        <!-- Settings Navigation Tabs -->
-        <div class="settings-tabs">
-            <button class="settings-tab active" onclick="showSettingsTab('general')">
-                <i class="fas fa-sliders-h"></i> General
-            </button>
-            <button class="settings-tab" onclick="showSettingsTab('security')">
-                <i class="fas fa-shield-alt"></i> Security
-            </button>
-            <button class="settings-tab" onclick="showSettingsTab('email')">
-                <i class="fas fa-envelope"></i> Email
-            </button>
-            <button class="settings-tab" onclick="showSettingsTab('proctoring')">
-                <i class="fas fa-video"></i> Proctoring
-            </button>
-            <button class="settings-tab" onclick="showSettingsTab('backup')">
-                <i class="fas fa-database"></i> Backup
-            </button>
-            <button class="settings-tab" onclick="showSettingsTab('api')">
-                <i class="fas fa-code"></i> API
-            </button>
-        </div>
-
-        <!-- General Settings Tab -->
-        <div id="general-tab" class="settings-tab-content active">
-            <div class="settings-grid">
-                <!-- System Information Card -->
-                <div class="settings-card">
-                    <div class="settings-card-header">
-                        <i class="fas fa-info-circle"></i>
-                        <h3>System Information</h3>
-                    </div>
-                    <div class="settings-card-body">
-                        <div class="info-item">
-                            <span class="info-label">System Name</span>
-                            <span class="info-value">EduProctor v2.0</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Environment</span>
-                            <span class="info-value"><span class="badge-success">Production</span></span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Last Updated</span>
-                            <span class="info-value">2024-01-15 10:30 AM</span>
-                        </div>
-                        <div class="info-item">
-                            <span class="info-label">Timezone</span>
-                            <span class="info-value">IST (UTC+5:30)</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- General Settings Card -->
-                <div class="settings-card">
-                    <div class="settings-card-header">
-                        <i class="fas fa-cog"></i>
-                        <h3>General Settings</h3>
-                    </div>
-                    <div class="settings-card-body">
-                        <div class="settings-form-group">
-                            <label class="settings-label">
-                                <i class="fas fa-globe"></i>
-                                Site Name
-                            </label>
-                            <input type="text" class="settings-input" value="EduProctor">
-                            <small class="settings-hint">Your exam platform name</small>
-                        </div>
-
-                        <div class="settings-form-group">
-                            <label class="settings-label">
-                                <i class="fas fa-tag"></i>
-                                Site Tagline
-                            </label>
-                            <input type="text" class="settings-input" value="Secure Online Examination & Proctoring">
-                        </div>
-
-                        <div class="settings-form-group">
-                            <label class="settings-label">
-                                <i class="fas fa-language"></i>
-                                Default Language
-                            </label>
-                            <select class="settings-select">
-                                <option value="en">English (US)</option>
-                                <option value="en-gb">English (UK)</option>
-                                <option value="hi">Hindi</option>
-                                <option value="ta">Tamil</option>
-                                <option value="te">Telugu</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Appearance Card -->
-                <div class="settings-card">
-                    <div class="settings-card-header">
-                        <i class="fas fa-paint-brush"></i>
-                        <h3>Appearance</h3>
-                    </div>
-                    <div class="settings-card-body">
-                        <div class="settings-form-group">
-                            <label class="settings-label">Theme Mode</label>
-                            <div class="theme-selector">
-                                <div class="theme-option active" onclick="setTheme('light')">
-                                    <i class="fas fa-sun"></i>
-                                    <span>Light</span>
-                                </div>
-                                <div class="theme-option" onclick="setTheme('dark')">
-                                    <i class="fas fa-moon"></i>
-                                    <span>Dark</span>
-                                </div>
-                                <div class="theme-option" onclick="setTheme('auto')">
-                                    <i class="fas fa-laptop"></i>
-                                    <span>Auto</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="settings-form-group">
-                            <label class="settings-label">Primary Color</label>
-                            <div class="color-picker">
-                                <input type="color" value="#4f46e5" class="color-input">
-                                <span>#4f46e5</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+        
+        <div style="margin-top: 20px;">
+            <h3>General Settings</h3>
+            <div style="margin-bottom: 15px;">
+                <label for="theme">Theme:</label>
+                <select id="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
             </div>
-        </div>
-
-        <!-- Other tabs (simplified) -->
-        <div id="security-tab" class="settings-tab-content">
-            <div class="settings-card">
-                <div class="settings-card-body">
-                    <p>Security settings coming soon...</p>
-                </div>
+            <div style="margin-bottom: 15px;">
+                <label for="notifications">Notifications:</label>
+                <input type="checkbox" id="notifications" checked /> Enable Notifications
             </div>
         </div>
         
-        <div id="email-tab" class="settings-tab-content">
-            <div class="settings-card">
-                <div class="settings-card-body">
-                    <p>Email settings coming soon...</p>
-                </div>
-            </div>
-        </div>
-        
-        <div id="proctoring-tab" class="settings-tab-content">
-            <div class="settings-card">
-                <div class="settings-card-body">
-                    <p>Proctoring settings coming soon...</p>
-                </div>
-            </div>
-        </div>
-        
-        <div id="backup-tab" class="settings-tab-content">
-            <div class="settings-card">
-                <div class="settings-card-body">
-                    <p>Backup settings coming soon...</p>
-                </div>
-            </div>
-        </div>
-        
-        <div id="api-tab" class="settings-tab-content">
-            <div class="settings-card">
-                <div class="settings-card-body">
-                    <p>API settings coming soon...</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Save Button -->
-        <div style="margin-top: 30px; display: flex; justify-content: flex-end; gap: 15px;">
-            <button class="btn-secondary" onclick="resetSettings()">
-                <i class="fas fa-undo"></i> Reset to Default
-            </button>
-            <button class="btn-primary btn-large" onclick="saveSettings()">
-                <i class="fas fa-save"></i> Save All Changes
+        <div style="margin-top: 20px;">
+            <button class="btn-primary" onclick="alert('Save settings feature coming soon!')">
+                <i class="fas fa-save"></i> Save Settings
             </button>
         </div>
     `;
-    
-    // Make functions global
-    window.showSettingsTab = showSettingsTab;
-    window.setTheme = setTheme;
-    window.resetSettings = resetSettings;
-    window.saveSettings = saveSettings;
-    
-    initThemeToggle();
-}
 
-// =====================================
-// SETTINGS HELPER FUNCTIONS
-// =====================================
-
-// Tab switching function
-function showSettingsTab(tabName) {
-    console.log('Switching to tab:', tabName);
-    
-    // Hide all tabs
-    document.querySelectorAll('.settings-tab-content').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // Remove active class from all tab buttons
-    document.querySelectorAll('.settings-tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-    
-    // Show selected tab
-    const selectedTab = document.getElementById(tabName + '-tab');
-    if (selectedTab) {
-        selectedTab.classList.add('active');
-    }
-    
-    // Add active class to clicked tab button
-    event.target.closest('.settings-tab').classList.add('active');
-}
-
-// Theme selector function
-function setTheme(theme) {
-    console.log('Setting theme:', theme);
-    
-    document.querySelectorAll('.theme-option').forEach(opt => {
-        opt.classList.remove('active');
-    });
-    event.target.closest('.theme-option').classList.add('active');
-    
-    if (theme === 'dark') {
-        document.body.classList.add('dark-mode');
-        localStorage.setItem('theme', 'dark');
-    } else if (theme === 'light') {
-        document.body.classList.remove('dark-mode');
-        localStorage.setItem('theme', 'light');
-    }
-}
-
-// Save settings function
-function saveSettings() {
-    alert('✅ Settings saved successfully!');
-}
-
-// Reset settings function
-function resetSettings() {
-    if (confirm('Are you sure you want to reset all settings to default?')) {
-        alert('Settings reset to default');
-    }
+    // Additional logic for dynamic settings can be added here
 }
 
 // =====================================

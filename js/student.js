@@ -51,11 +51,22 @@ document.addEventListener('DOMContentLoaded', function() {
     // Results button
     const myResultsBtn = document.getElementById('myResultsBtn');
     if (myResultsBtn) {
+        console.log('Binding results button listener');
         myResultsBtn.addEventListener('click', function(e) {
             e.preventDefault();
             console.log('Results button clicked');
             setActive(this);
-            loadResults();
+            try {
+                if (typeof loadResults === 'function') {
+                    loadResults();
+                } else if (typeof window.loadResults === 'function') {
+                    window.loadResults();
+                } else {
+                    console.error('loadResults is not defined');
+                }
+            } catch (err) {
+                console.error('Error running loadResults:', err);
+            }
         });
     }
     
@@ -75,10 +86,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (logoutBtn) {
         logoutBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            if (confirm('Are you sure you want to logout?')) {
-                sessionStorage.removeItem('user');
-                window.location.href = '../login.html';
-            }
+            console.log('Logout clicked');
+            sessionStorage.clear();
+            window.location.href = '../login.html';
         });
     }
 });
@@ -400,6 +410,9 @@ function loadResults() {
     
     initThemeToggle();
 }
+
+// Expose function on window to avoid name resolution issues across pages
+if (typeof window !== 'undefined') window.loadResults = loadResults;
 
 // Function to load profile
 function loadProfile() {
